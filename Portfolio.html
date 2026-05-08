@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Akshay Mahaldar — System Operations Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Figtree:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+
+/* ─── TOKENS ─────────────────────────────────────────────────── */
+:root {
+  /* Cream palette — one consistent family throughout */
+  --cream-0: #FAFAF7;   /* lightest — hero bg */
+  --cream-1: #F5F3EE;   /* main bg */
+  --cream-2: #EDEAE2;   /* alternate sections */
+  --cream-3: #E4E0D6;   /* borders, dividers */
+  --cream-4: #D4CFC3;   /* stronger borders */
+
+  /* Ink — warm-toned, never pure black */
+  --ink:   #1A1915;
+  --ink-2: #3A3832;
+  --ink-3: #706D64;
+  --ink-4: #A8A49A;
+
+  /* Accent — single steel blue, used sparingly */
+  --accent:   #1C3D5E;
+  --accent-2: #2E5F8A;
+  --accent-bg: #EBF1F8;
+
+  /* Gold — for micro-accents only */
+  --gold: #B89460;
+
+  --display: 'Cormorant Garamond', Georgia, serif;
+  --body:    'Figtree', -apple-system, sans-serif;
+  --mono:    'JetBrains Mono', monospace;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease:     cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --max: 1140px;
+  --pad: clamp(24px, 5.5vw, 80px);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  background: var(--cream-1);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ─── SCROLL REVEAL ─────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.85s var(--ease-out), transform 0.85s var(--ease-out);
+}
+.reveal.visible { opacity: 1; transform: none; }
+.d1 { transition-delay: 0.10s; }
+.d2 { transition-delay: 0.20s; }
+.d3 { transition-delay: 0.32s; }
+.d4 { transition-delay: 0.44s; }
+
+/* ─── NAV ───────────────────────────────────────────────────── */
+nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 200;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--pad);
+  background: rgba(245, 243, 238, 0.92);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border-bottom: 1px solid var(--cream-3);
+}
+.nav-mark {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a {
+  font-size: 0.71rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--ink); }
+
+/* ─── HERO ──────────────────────────────────────────────────── */
+.hero {
+  background: var(--cream-0);
+  min-height: 100vh;
+  padding-top: 62px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle vertical rule — structural, not decorative */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 62px; right: 22%;
+  width: 1px; height: 100%;
+  background: linear-gradient(to bottom, transparent, var(--cream-3) 20%, var(--cream-3) 80%, transparent);
+}
+
+/* Diagonal accent — very subtle, barely visible */
+.hero-diag {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.hero-diag::before {
+  content: '';
+  position: absolute;
+  bottom: 22%;
+  left: -8%;
+  width: 116%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--cream-3) 30%, var(--cream-3) 70%, transparent);
+  transform: rotate(-2.5deg);
+}
+.hero-diag::after {
+  content: '';
+  position: absolute;
+  top: 28%;
+  right: 5%;
+  width: 1px;
+  height: 36%;
+  background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  opacity: 0.3;
+}
+
+/* Hero content */
+.hero-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 72px var(--pad) 48px;
+  max-width: var(--max);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fup 0.9s var(--ease-out) 0.3s forwards;
+}
+.hero-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #4CAF7D;
+  animation: breathe 3.5s ease infinite;
+}
+@keyframes breathe {
+  0%,100% { box-shadow: 0 0 0 0 rgba(76,175,125,0.4); }
+  50%      { box-shadow: 0 0 0 6px rgba(76,175,125,0); }
+}
+.hero-eyebrow span {
+  font-family: var(--mono);
+  font-size: 0.67rem;
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* THE HEADLINE — refined, not large
+   Cormorant at a controlled size. Italic line is the personality.
+   No weight above 300. This is luxury, not loudness. */
+.hero-headline {
+  opacity: 0;
+  animation: fup 1.1s var(--ease-out) 0.45s forwards;
+}
+.hero-headline h1 {
+  font-family: var(--display);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.h-line-1 {
+  display: block;
+  font-size: clamp(2.2rem, 5.5vw, 4.8rem);
+}
+.h-line-2 {
+  display: block;
+  font-size: clamp(2.2rem, 5.5vw, 4.8rem);
+  font-style: italic;
+  color: var(--ink-3);
+  /* A deliberate, controlled indent — not excessive */
+  padding-left: clamp(24px, 4vw, 72px);
+}
+.h-line-3 {
+  display: block;
+  font-size: clamp(2.2rem, 5.5vw, 4.8rem);
+}
+
+/* Two-column descriptor under the headline */
+.hero-desc {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  max-width: 640px;
+  opacity: 0;
+  animation: fup 1s var(--ease-out) 0.6s forwards;
+}
+.hero-desc-left {
+  padding-right: 36px;
+  border-right: 1px solid var(--cream-3);
+}
+.hero-desc-right { padding-left: 36px; }
+.hero-desc p {
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1.82;
+  color: var(--ink-3);
+}
+
+/* CTA row */
+.hero-cta {
+  margin-top: 44px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  opacity: 0;
+  animation: fup 1s var(--ease-out) 0.75s forwards;
+}
+.btn-solid {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 26px;
+  background: var(--ink);
+  color: var(--cream-0);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+.btn-solid:hover {
+  background: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(28,61,94,0.2);
+}
+.btn-text {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: color 0.2s, gap 0.3s;
+}
+.btn-text:hover { color: var(--ink); gap: 12px; }
+
+/* Stat strip at bottom of hero */
+.hero-stats {
+  max-width: var(--max);
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 var(--pad);
+  opacity: 0;
+  animation: fup 1s var(--ease-out) 0.9s forwards;
+}
+.hero-stats-inner {
+  display: flex;
+  border-top: 1px solid var(--cream-3);
+}
+.hstat {
+  flex: 1;
+  padding: 28px 28px;
+  border-right: 1px solid var(--cream-3);
+}
+.hstat:first-child { padding-left: 0; }
+.hstat:last-child  { border-right: none; }
+.hstat-num {
+  font-family: var(--display);
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 5px;
+}
+.hstat-lbl {
+  font-size: 0.68rem;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+
+@keyframes fup {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ─── SECTION CHROME ────────────────────────────────────────── */
+.section {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 112px var(--pad);
+  width: 100%;
+}
+.slabel {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 56px;
+}
+.snum {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 300;
+  color: var(--ink-4);
+  letter-spacing: 0.08em;
+}
+.srule { flex: 0 0 40px; height: 1px; background: var(--cream-3); }
+.stxt {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.shead {
+  font-family: var(--display);
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+.shead em { font-style: italic; color: var(--ink-3); }
+.ssub {
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1.82;
+  color: var(--ink-3);
+  max-width: 440px;
+}
+
+/* ─── ABOUT ─────────────────────────────────────────────────── */
+.about-bg { background: var(--cream-1); }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 0 72px;
+  align-items: start;
+}
+.about-text p {
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.92;
+  color: var(--ink-2);
+  margin-bottom: 22px;
+}
+.about-text p strong { font-weight: 500; color: var(--ink); }
+.about-right {
+  margin-top: 72px; /* vertical offset for asymmetry */
+  position: relative;
+}
+.about-right::before {
+  content: '';
+  position: absolute;
+  top: -36px; left: 0;
+  width: 28px; height: 1px;
+  background: var(--gold);
+  opacity: 0.55;
+}
+.aattr {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--cream-3);
+  transition: padding-left 0.3s var(--ease);
+}
+.aattr:first-child { border-top: 1px solid var(--cream-3); }
+.aattr:hover { padding-left: 8px; }
+.aattr-ico { font-size: 0.9rem; width: 16px; flex-shrink: 0; margin-top: 2px; }
+.aattr h4 { font-size: 0.8rem; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+.aattr p  { font-size: 0.75rem; font-weight: 300; color: var(--ink-3); line-height: 1.55; }
+
+/* ─── EXPERTISE — CREAM, NO BLACK ──────────────────────────── */
+/* This section uses a slightly darker cream to differentiate
+   from the surrounding sections — subtle, consistent, elegant */
+.exp-bg { background: var(--cream-2); position: relative; overflow: hidden; }
+
+/* Diagonal accent lines — on cream, very subtle */
+.exp-bg::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -5%; right: -5%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--cream-4) 30%, var(--cream-4) 70%, transparent);
+  transform: rotate(-0.8deg);
+}
+.exp-bg::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: -5%; right: -5%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--cream-4) 30%, var(--cream-4) 70%, transparent);
+  transform: rotate(-0.8deg);
+}
+
+.exp-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 112px var(--pad);
+}
+.exp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 56px;
+  margin-top: 56px;
+}
+.eg-group h3 {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--cream-3);
+}
+.tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  font-size: 0.72rem;
+  font-weight: 300;
+  padding: 4px 10px;
+  border-radius: 2px;
+  background: var(--cream-1);
+  color: var(--ink-3);
+  border: 1px solid var(--cream-3);
+  cursor: default;
+  transition: all 0.22s;
+  letter-spacing: 0.01em;
+}
+.tag:hover {
+  background: var(--cream-0);
+  color: var(--ink);
+  border-color: var(--cream-4);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+}
+.tag.hi {
+  background: var(--accent-bg);
+  border-color: rgba(28,61,94,0.18);
+  color: var(--accent);
+  font-weight: 400;
+}
+
+/* ─── PROJECTS ──────────────────────────────────────────────── */
+.proj-bg { background: var(--cream-1); }
+.proj-header {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 0 72px;
+  align-items: end;
+  margin-bottom: 56px;
+}
+.proj-list { display: flex; flex-direction: column; }
+.proj-item {
+  position: relative;
+  padding: 44px 0 44px 88px;
+  border-bottom: 1px solid var(--cream-3);
+  transition: padding-left 0.4s var(--ease), background 0.3s;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.proj-item:last-child { border-bottom: none; }
+
+/* Ghost number — large, very faint, cream-on-cream */
+.gn {
+  position: absolute;
+  left: -6px; top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--display);
+  font-size: clamp(4.5rem, 9vw, 8rem);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--cream-3);
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.4s;
+  letter-spacing: -0.04em;
+}
+.proj-item:hover { padding-left: 108px; background: var(--cream-0); }
+.proj-item:hover .gn { color: rgba(28,61,94,0.08); }
+
+.proj-phase {
+  font-family: var(--mono);
+  font-size: 0.61rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  margin-bottom: 9px;
+}
+.proj-title {
+  font-family: var(--display);
+  font-size: clamp(1.45rem, 2.2vw, 1.85rem);
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 9px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.proj-desc {
+  font-size: 0.82rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--ink-3);
+  max-width: 540px;
+  margin-bottom: 14px;
+}
+.proj-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 540px;
+}
+.ptags { display: flex; flex-wrap: wrap; gap: 5px; }
+.ptag {
+  font-family: var(--mono);
+  font-size: 0.59rem;
+  font-weight: 300;
+  padding: 2px 8px;
+  background: var(--cream-2);
+  color: var(--ink-3);
+  border-radius: 2px;
+  border: 1px solid var(--cream-3);
+  letter-spacing: 0.03em;
+}
+.plink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.71rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+  margin-left: 16px;
+  flex-shrink: 0;
+  transition: gap 0.3s, color 0.2s;
+}
+.plink:hover { gap: 9px; }
+
+/* ─── CREDENTIALS ───────────────────────────────────────────── */
+.creds-bg { background: var(--cream-2); position: relative; overflow: hidden; }
+.creds-bg::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -5%; right: -5%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--cream-4) 30%, var(--cream-4) 70%, transparent);
+  transform: rotate(-0.6deg);
+}
+.creds-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 112px var(--pad);
+}
+.creds-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 56px;
+}
+.cert {
+  background: var(--cream-0);
+  border: 1px solid var(--cream-3);
+  border-radius: 3px;
+  padding: 22px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s var(--ease);
+}
+/* Gold left accent reveal on hover */
+.cert::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--gold);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.35s var(--ease);
+}
+.cert:hover::before { transform: scaleY(1); }
+.cert:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.07);
+  border-color: var(--cream-4);
+}
+.cert-icon {
+  font-size: 1rem;
+  width: 36px; height: 36px;
+  background: var(--accent-bg);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.cert-name { font-size: 0.8rem; font-weight: 500; color: var(--ink); margin-bottom: 3px; line-height: 1.3; }
+.cert-org  { font-size: 0.7rem; font-weight: 300; color: var(--ink-4); }
+
+/* ─── CONTACT ───────────────────────────────────────────────── */
+.contact-bg { background: var(--cream-1); }
+.contact-wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 148px var(--pad) 112px;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 0 72px;
+  align-items: start;
+}
+.contact-lead {
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--ink-3);
+  margin-bottom: 40px;
+  max-width: 380px;
+}
+.clinks { display: flex; flex-direction: column; }
+.clink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--cream-3);
+  text-decoration: none;
+  transition: padding-left 0.25s var(--ease);
+}
+.clink:first-child { border-top: 1px solid var(--cream-3); }
+.clink:hover { padding-left: 8px; }
+.clink-left { display: flex; align-items: center; gap: 13px; }
+.clink-ico {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--cream-2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.88rem;
+  transition: background 0.25s;
+}
+.clink:hover .clink-ico { background: var(--accent-bg); }
+.clink-lbl { font-size: 0.8rem; font-weight: 400; color: var(--ink); }
+.clink-val { font-size: 0.7rem; font-weight: 300; color: var(--ink-4); margin-top: 1px; }
+.clink-arr { font-size: 0.8rem; color: var(--ink-4); transition: transform 0.25s, color 0.25s; }
+.clink:hover .clink-arr { transform: translateX(4px); color: var(--accent); }
+
+/* Contact right — cards on cream, using ink and accent for contrast */
+.contact-right {
+  margin-top: 64px; /* vertical offset */
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ccard {
+  border-radius: 3px;
+  padding: 28px;
+  border: 1px solid var(--cream-3);
+}
+.ccard-ink {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.ccard-accent {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.ccard-lbl {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 12px;
+}
+.ccard-head {
+  font-family: var(--display);
+  font-size: 1.45rem;
+  font-weight: 400;
+  line-height: 1.28;
+  color: var(--cream-0);
+  margin-bottom: 10px;
+}
+.ccard-body {
+  font-size: 0.78rem;
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ─── FOOTER ────────────────────────────────────────────────── */
+footer { background: var(--cream-2); border-top: 1px solid var(--cream-3); }
+.footer-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 28px var(--pad);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-inner p { font-size: 0.7rem; font-weight: 300; color: var(--ink-4); letter-spacing: 0.04em; }
+.footer-sig {
+  font-family: var(--display);
+  font-size: 0.85rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--gold);
+  opacity: 0.65;
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────────────── */
+@media (max-width: 940px) {
+  .nav-links { display: none; }
+  .hero-desc { grid-template-columns: 1fr; }
+  .hero-desc-left { border-right: none; padding-right: 0; border-bottom: 1px solid var(--cream-3); padding-bottom: 18px; margin-bottom: 18px; }
+  .hero-desc-right { padding-left: 0; }
+  .hero-stats-inner { flex-direction: column; }
+  .hstat { border-right: none; border-bottom: 1px solid var(--cream-3); padding: 20px 0; }
+  .hstat:last-child { border-bottom: none; }
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .about-right { margin-top: 0; }
+  .exp-grid { grid-template-columns: 1fr 1fr; }
+  .proj-header { grid-template-columns: 1fr; gap: 16px; }
+  .proj-item { padding-left: 72px; }
+  .gn { font-size: 4rem; left: -4px; }
+  .creds-grid { grid-template-columns: 1fr 1fr; }
+  .contact-wrap { grid-template-columns: 1fr; }
+  .contact-right { margin-top: 40px; }
+  .footer-inner { flex-direction: column; gap: 10px; text-align: center; }
+}
+@media (max-width: 580px) {
+  .exp-grid { grid-template-columns: 1fr; }
+  .creds-grid { grid-template-columns: 1fr; }
+  .proj-item { padding-left: 0; }
+  .gn { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-mark" href="#">Akshay Mahaldar</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#expertise">Expertise</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Credentials</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-diag"></div>
+  <div class="hero-body">
+
+    <div class="hero-eyebrow">
+      <span class="hero-dot"></span>
+      <span>Available for opportunities &nbsp;·&nbsp; Berlin, Germany</span>
+    </div>
+
+    <div class="hero-headline">
+      <h1>
+        <span class="h-line-1">System</span>
+        <span class="h-line-2">Operations</span>
+        <span class="h-line-3">Engineer</span>
+      </h1>
+    </div>
+
+    <div class="hero-desc">
+      <div class="hero-desc-left">
+        <p>Six years designing and operating enterprise IT environments — from zero-touch device provisioning to identity automation at scale.</p>
+      </div>
+      <div class="hero-desc-right">
+        <p>Specialised in macOS and Windows MDM, Okta identity lifecycle, and automating the repetitive so operations teams can focus on what matters.</p>
+      </div>
+    </div>
+
+    <div class="hero-cta">
+      <a class="btn-solid" href="#contact">
+        Get in touch
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a class="btn-text" href="#projects">
+        View projects
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stats-inner">
+      <div class="hstat">
+        <div class="hstat-num">6+</div>
+        <div class="hstat-lbl">Years in enterprise IT operations</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-num">10+</div>
+        <div class="hstat-lbl">Enterprise platforms managed</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-num">5</div>
+        <div class="hstat-lbl">Portfolio projects published</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-num">MBA</div>
+        <div class="hstat-lbl">Project Management · BSBI Berlin</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="about-bg" id="about">
+  <div class="section">
+    <div class="slabel reveal"><span class="snum">01</span><span class="srule"></span><span class="stxt">About</span></div>
+    <div class="about-grid">
+      <div class="about-text reveal d1">
+        <p>I am a <strong>System Operations Engineer</strong> with over six years of experience designing and running enterprise IT infrastructure for fast-moving organisations.</p>
+        <p>My work sits at the intersection of endpoint management, identity automation, and platform reliability. I build the systems that let everyone else do their work without thinking about IT.</p>
+        <p>Based in <strong>Berlin</strong>, I bring a combined background in IT operations and project management — underpinned by an MBA and a track record of delivering reliable, automated infrastructure in high-growth environments.</p>
+      </div>
+      <div class="about-right reveal d2">
+        <div class="aattr"><span class="aattr-ico">🖥️</span><div><h4>Endpoint &amp; Device Management</h4><p>Jamf Pro, Microsoft Intune, Apple Business Manager — full fleet lifecycle from zero-touch provisioning to retirement.</p></div></div>
+        <div class="aattr"><span class="aattr-ico">🔐</span><div><h4>Identity &amp; Access Management</h4><p>Okta SSO, MFA, lifecycle automation. Zero-trust posture and SaaS access governance.</p></div></div>
+        <div class="aattr"><span class="aattr-ico">⚙️</span><div><h4>Automation &amp; Scripting</h4><p>Bash, Python, PowerShell, Workato, Zapier — API integrations and CI/CD workflows via Git and GitHub.</p></div></div>
+        <div class="aattr"><span class="aattr-ico">☁️</span><div><h4>Cloud &amp; Observability</h4><p>AWS, GCP, Azure. Monitoring with Prometheus, Grafana, and OpenSearch SIEM.</p></div></div>
+        <div class="aattr"><span class="aattr-ico">📋</span><div><h4>ITSM &amp; Operations</h4><p>ServiceNow, Jira Service Management, Zendesk. ITIL, Agile, Lean Six Sigma.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERTISE — cream bg, no black -->
+<div class="exp-bg" id="expertise">
+  <div class="exp-inner">
+    <div class="slabel reveal"><span class="snum">02</span><span class="srule"></span><span class="stxt">Technical Expertise</span></div>
+    <h2 class="shead reveal d1">Every tool<br/><em>in the stack</em></h2>
+    <div class="exp-grid">
+      <div class="reveal d1"><div class="eg-group"><h3>Endpoint Management</h3><div class="tag-row"><span class="tag hi">Jamf Pro</span><span class="tag hi">Microsoft Intune</span><span class="tag">Apple Business Manager</span><span class="tag">MDM</span><span class="tag">macOS Fleet</span><span class="tag">iOS Management</span><span class="tag">Patch Management</span><span class="tag">Device Provisioning</span><span class="tag">Endpoint Compliance</span></div></div></div>
+      <div class="reveal d2"><div class="eg-group"><h3>Identity &amp; Access</h3><div class="tag-row"><span class="tag hi">Okta</span><span class="tag hi">Active Directory</span><span class="tag">Azure AD</span><span class="tag">SSO</span><span class="tag">MFA</span><span class="tag">IAM</span><span class="tag">Okta Workflows</span><span class="tag">SaaS Governance</span><span class="tag">GDPR Compliance</span></div></div></div>
+      <div class="reveal d3"><div class="eg-group"><h3>Automation &amp; Scripting</h3><div class="tag-row"><span class="tag hi">Bash</span><span class="tag hi">Python</span><span class="tag hi">PowerShell</span><span class="tag">Zapier</span><span class="tag">Workato</span><span class="tag">REST APIs</span><span class="tag">Graph API</span><span class="tag">GitHub Actions</span><span class="tag">CI/CD</span></div></div></div>
+      <div class="reveal d1"><div class="eg-group"><h3>SaaS &amp; Collaboration</h3><div class="tag-row"><span class="tag hi">Google Workspace</span><span class="tag">Microsoft 365</span><span class="tag">Exchange</span><span class="tag">Outlook</span><span class="tag">Atlassian Cloud</span><span class="tag">Jira</span><span class="tag">Confluence</span><span class="tag">ServiceNow</span><span class="tag">Zendesk</span></div></div></div>
+      <div class="reveal d2"><div class="eg-group"><h3>Cloud &amp; Infrastructure</h3><div class="tag-row"><span class="tag hi">AWS</span><span class="tag">GCP</span><span class="tag">Microsoft Azure</span><span class="tag">Terraform</span><span class="tag">VMware</span><span class="tag">IaC</span><span class="tag">Prometheus</span><span class="tag">Grafana</span><span class="tag">OpenSearch</span></div></div></div>
+      <div class="reveal d3"><div class="eg-group"><h3>ITSM &amp; Operations</h3><div class="tag-row"><span class="tag hi">ITIL Practices</span><span class="tag">Agile · Scrum</span><span class="tag">Kanban</span><span class="tag">Snipe-IT</span><span class="tag">Asset Management</span><span class="tag">Incident Mgmt</span><span class="tag">Change Mgmt</span><span class="tag">Lean Six Sigma</span></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="proj-bg" id="projects">
+  <div class="section">
+    <div class="slabel reveal"><span class="snum">03</span><span class="srule"></span><span class="stxt">Portfolio Projects</span></div>
+    <div class="proj-header">
+      <h2 class="shead reveal d1">The full IT<br/><em>operations lifecycle</em></h2>
+      <p class="ssub reveal d2">Five projects in operational sequence — from Day 0 provisioning to ongoing identity management.</p>
+    </div>
+    <div class="proj-list">
+
+      <div class="proj-item reveal">
+        <div class="gn">01</div>
+        <div class="proj-phase">Day 0 — Provisioning</div>
+        <h3 class="proj-title">macOS Zero-Touch Onboarding</h3>
+        <p class="proj-desc">Complete automated onboarding pipeline using Apple Business Manager, Jamf Pro PreStage Enrolment, and a 10-step configuration script. A new Mac ships directly to the employee and configures itself — IT never touches it.</p>
+        <div class="proj-foot"><div class="ptags"><span class="ptag">Jamf Pro</span><span class="ptag">Apple Business Manager</span><span class="ptag">DEP</span><span class="ptag">Bash</span><span class="ptag">macOS</span></div><a class="plink" href="https://github.com/akshaymahaldar/macos-zero-touch-onboarding" target="_blank">View on GitHub <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a></div>
+      </div>
+
+      <div class="proj-item reveal">
+        <div class="gn">02</div>
+        <div class="proj-phase">Day 1 — Monitoring</div>
+        <h3 class="proj-title">Endpoint Health Log Parser</h3>
+        <p class="proj-desc">Bash script auditing 10 macOS health metrics — disk, memory, CPU, FileVault, failed logins, network, uptime, and pending updates. Deploys fleet-wide via Jamf Pro with exit codes that feed Smart Groups automatically.</p>
+        <div class="proj-foot"><div class="ptags"><span class="ptag">Jamf Pro</span><span class="ptag">Bash</span><span class="ptag">macOS</span><span class="ptag">Monitoring</span><span class="ptag">Smart Groups</span></div><a class="plink" href="https://github.com/akshaymahaldar/jamf-endpoint-health-parser" target="_blank">View on GitHub <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a></div>
+      </div>
+
+      <div class="proj-item reveal">
+        <div class="gn">03</div>
+        <div class="proj-phase">Day 2 — Security &amp; Compliance</div>
+        <h3 class="proj-title">macOS CIS Benchmark Hardening</h3>
+        <p class="proj-desc">Audits 12 CIS Level 1 controls — FileVault, Gatekeeper, SIP, Application Firewall, Guest Account, and more. Runs audit-only by default. Pass <code style="font-family:var(--mono);font-size:.78em;background:var(--cream-2);padding:1px 6px;border-radius:2px">--fix</code> to apply safe automated remediations.</p>
+        <div class="proj-foot"><div class="ptags"><span class="ptag">CIS Benchmark</span><span class="ptag">macOS Security</span><span class="ptag">Bash</span><span class="ptag">Jamf Pro</span><span class="ptag">Compliance</span></div><a class="plink" href="https://github.com/akshaymahaldar/macos-cis-benchmark-hardening" target="_blank">View on GitHub <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a></div>
+      </div>
+
+      <div class="proj-item reveal">
+        <div class="gn">04</div>
+        <div class="proj-phase">Ongoing — Enforcement</div>
+        <h3 class="proj-title">Intune Compliance Dashboard</h3>
+        <p class="proj-desc">PowerShell script using app-only OAuth 2.0 to query the Microsoft Graph API and generate a self-contained HTML compliance report — per-device state, stale device detection, policy inventory — shareable without portal access.</p>
+        <div class="proj-foot"><div class="ptags"><span class="ptag">Microsoft Graph API</span><span class="ptag">Intune</span><span class="ptag">PowerShell</span><span class="ptag">Azure AD</span><span class="ptag">OAuth 2.0</span></div><a class="plink" href="https://github.com/akshaymahaldar/intune-compliance-dashboard" target="_blank">View on GitHub <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a></div>
+      </div>
+
+      <div class="proj-item reveal">
+        <div class="gn">05</div>
+        <div class="proj-phase">Foundation — Identity</div>
+        <h3 class="proj-title">Okta + Active Directory Group Sync</h3>
+        <p class="proj-desc">Python script querying AD group membership via LDAP, comparing against Okta, and syncing additions and removals automatically. Includes dormant account detection and a full JSON audit report on every run.</p>
+        <div class="proj-foot"><div class="ptags"><span class="ptag">Okta REST API</span><span class="ptag">Active Directory</span><span class="ptag">LDAP</span><span class="ptag">Python</span><span class="ptag">IAM</span></div><a class="plink" href="https://github.com/akshaymahaldar/okta-ad-user-sync" target="_blank">View on GitHub <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CREDENTIALS -->
+<div class="creds-bg" id="certifications">
+  <div class="creds-inner">
+    <div class="slabel reveal"><span class="snum">04</span><span class="srule"></span><span class="stxt">Credentials</span></div>
+    <h2 class="shead reveal d1">Certifications<br/><em>&amp; Education</em></h2>
+    <div class="creds-grid">
+      <div class="cert reveal d1"><div class="cert-icon">🍎</div><div><div class="cert-name">Jamf Certified Associate</div><div class="cert-org">Jamf</div></div></div>
+      <div class="cert reveal d2"><div class="cert-icon">☁️</div><div><div class="cert-name">AZ-900 — In Progress</div><div class="cert-org">Microsoft Azure Fundamentals</div></div></div>
+      <div class="cert reveal d3"><div class="cert-icon">📊</div><div><div class="cert-name">Data Analytics Essentials</div><div class="cert-org">Cisco</div></div></div>
+      <div class="cert reveal d1"><div class="cert-icon">⚡</div><div><div class="cert-name">Lean Six Sigma White Belt</div><div class="cert-org">Lean Six Sigma Institute</div></div></div>
+      <div class="cert reveal d2"><div class="cert-icon">🔄</div><div><div class="cert-name">Agile — Scrum &amp; Kanban</div><div class="cert-org">Work Methodologies</div></div></div>
+      <div class="cert reveal d3"><div class="cert-icon">🎓</div><div><div class="cert-name">MBA — Project Management</div><div class="cert-org">Berlin School of Business &amp; Innovation</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-bg" id="contact">
+  <div class="contact-wrap">
+    <div class="reveal">
+      <div class="slabel" style="margin-bottom:28px"><span class="snum">05</span><span class="srule"></span><span class="stxt">Contact</span></div>
+      <h2 class="shead">Let's talk<br/><em>about the role</em></h2>
+      <p class="contact-lead">Open to System Operations, IT Infrastructure, Endpoint Management, and IAM engineering roles in Berlin. Serious enquiries welcome.</p>
+      <div class="clinks">
+        <a class="clink" href="https://www.linkedin.com/in/akshay-mahaldar" target="_blank"><div class="clink-left"><div class="clink-ico">💼</div><div><div class="clink-lbl">LinkedIn</div><div class="clink-val">linkedin.com/in/akshay-mahaldar</div></div></div><span class="clink-arr">→</span></a>
+        <a class="clink" href="mailto:akshay.mahaldar@outlook.com"><div class="clink-left"><div class="clink-ico">✉️</div><div><div class="clink-lbl">Email</div><div class="clink-val">akshay.mahaldar@outlook.com</div></div></div><span class="clink-arr">→</span></a>
+        <a class="clink" href="https://github.com/akshaymahaldar" target="_blank"><div class="clink-left"><div class="clink-ico">💻</div><div><div class="clink-lbl">GitHub</div><div class="clink-val">github.com/akshaymahaldar</div></div></div><span class="clink-arr">→</span></a>
+      </div>
+    </div>
+    <div class="contact-right reveal d2">
+      <div class="ccard ccard-ink">
+        <div class="ccard-lbl">What I bring</div>
+        <div class="ccard-head">Enterprise IT that simply works.</div>
+        <div class="ccard-body">Six years turning manual, error-prone IT operations into automated, auditable, and scalable systems. Jamf, Intune, Okta, and the scripting depth to tie them all together.</div>
+      </div>
+      <div class="ccard ccard-accent">
+        <div class="ccard-lbl">Currently</div>
+        <div class="ccard-head">Open to opportunities in Berlin.</div>
+        <div class="ccard-body">System Operations · IT Infrastructure · Endpoint Management · IAM Engineering</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <p>© 2025 Akshay Mahaldar &nbsp;·&nbsp; System Operations Engineer &nbsp;·&nbsp; Berlin</p>
+    <span class="footer-sig">Built with precision, not templates.</span>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(
+  entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+  { threshold: 0.06, rootMargin: '0px 0px -40px 0px' }
+);
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
